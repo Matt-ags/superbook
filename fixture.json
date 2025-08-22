@@ -1,0 +1,23 @@
+
+[
+  {
+    "model": "perfil.Hero",
+    "pk": 1,
+    "fields": {
+      "codinome": "Acorn",
+      "poderes": "Superinteligência",
+      "descricao": "Um esquilo que luta contra o crime.",
+      "criado_em": "2025-07-20T12:00:00Z"
+    }
+  },
+  {
+    "model": "posts.Post",
+    "pk": 1,
+    "fields": {
+      "autor": 1,
+      "mensagem": "Bem-vindo ao SuperBook!",
+      "criado_em": "2025-07-20T12:00:00Z"
+    }
+  }
+]
+
