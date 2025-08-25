@@ -3,24 +3,34 @@ from django.contrib.auth.models import User # na docs, mostra que já temos "cri
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
+from .models import Perfil
+from .forms import UserForm, PerfilForm
 # Create your views here.
+
 def cadastro(request):
-    if request.method == "GET":
-        return render(request, 'cadastro.html')
+    if request.method == "POST":
+        user_form = UserForm(request.POST)
+        perfil_form = PerfilForm(request.POST)
+
+        if user_form.is_valid() and perfil_form.is_valid():
+            user = user_form.save(commit=False)
+            user.set_password(user_form.cleaned_data['password'])
+            user.save()
+
+            perfil = perfil_form.save(commit=False)
+            perfil.user = user
+            perfil.save()
+
+            login_django(request, user)
+            
     else:
-        codinome = request.POST.get('codinome')
-        email = request.POST.get('email')
-        senha = request.POST.get('senha')
+        user_form = UserForm()
+        perfil_form = PerfilForm()
 
-        user = User.objects.filter(username=codinome).first() # primeiro campo, da lib, segundo, o nosso
-
-        if user:
-            return HttpResponse('Já existe um user com este codi!')
-        
-        user = User.objects.create_user(username=codinome, email=email, password=senha)
-        user.save()
-
-        return HttpResponse("cadastrado ok!")
+    return render(request, 'cadastro.html', {
+        'user_form': user_form,
+        'perfil_form': perfil_form
+    })
 
 def login(request):
     if request.method == "GET":
