@@ -3,6 +3,7 @@ from django.contrib.auth.models import User # na docs, mostra que já temos "cri
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
+from .models import *
 # Create your views here.
 def cadastro(request):
     if request.method == "GET":
@@ -11,14 +12,21 @@ def cadastro(request):
         codinome = request.POST.get('codinome')
         email = request.POST.get('email')
         senha = request.POST.get('senha')
-
         user = User.objects.filter(username=codinome).first() # primeiro campo, da lib, segundo, o nosso
+
+        # outras infs
+
+        descricao = request.POST.get('descricao')
+        poderes = request.POST.get('poderes')
+        
 
         if user:
             return HttpResponse('Já existe um user com este codi!')
         
         user = User.objects.create_user(username=codinome, email=email, password=senha)
         user.save()
+        perfil = Perfil(user = user, descricao = descricao, poderes = poderes)
+        perfil.save()
 
         return HttpResponse("cadastrado ok!")
 
