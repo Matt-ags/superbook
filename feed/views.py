@@ -34,4 +34,4 @@ def plataforma(request):
         'descricao_usuario': descricao
     }
     
-    return HttpResponse("ok plataforma (a partir do app feed)")
+    return render(request, 'feed.html', usuario_cadastrado)
