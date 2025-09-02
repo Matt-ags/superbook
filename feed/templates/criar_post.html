@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt_br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetste</title>
+</head>
+<body>
+    <form action="{% url 'criar_post' %}" method="post"> {% csrf_token %}
+        <input type="text" placeholder="Conteúdo..." name="mensagem">
+        <br>
+        <input type="submit" value="Postar">
+    </form>
+</body>
+</html>
