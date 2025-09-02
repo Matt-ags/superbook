@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.contrib.auth.models import User # na docs, mostra que já temos "criado", usamos essa model como base :D
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
@@ -14,6 +14,7 @@ def plataforma(request):
     user_username = request.user.username # NOME
     user_user_id = request.user.id # ID
     dados_user = Perfil.objects.filter(user_id=user_user_id) # SELECT COM OUTRAS INFORMAÇÕES
+    posts = Post.objects.all()
     # print(user_username)
     # print(user_user_id)
     # print(dados_user)
@@ -35,7 +36,7 @@ def plataforma(request):
         'descricao_usuario': descricao
     }
     
-    return render(request, 'feed.html', usuario_cadastrado)
+    return render(request, 'feed.html', {'usuario_cadastrado': usuario_cadastrado, 'posts': posts})
 
 @login_required(login_url='/auth/login/')
 def criar_post(request):

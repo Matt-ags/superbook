@@ -1,3 +1,4 @@
+{% load tz %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,10 +8,25 @@
 </head>
 <body>
 
-    <h1>Bem-vindo, {{ nome_usuario }}!</h1>
+    <h1>Bem-vindo, {{ usuario_cadastrado.nome_usuario }}!</h1>
     <!-- <p><b>ID:</b> {{ id_usuario }}</p> -->
-    <p><b>Poderes:</b> {{ poderes_usuario }}</p>
-    <p><b>Descrição:</b> {{ descricao_usuario }}</p>
+    <p><b>Poderes:</b> {{ usuario_cadastrado.poderes_usuario }}</p>
+    <p><b>Descrição:</b> {{ usuario_cadastrado.descricao_usuario }}</p>
     <a href="criar_post"> Criar Post </a>
+    <a href="logout"> Logout </a>
+
+    <h2>Feed de Posts</h2>
+
+        {% for post in posts %}
+            <div>
+                <strong>{{ post.autor.username }}</strong>  <!-- pega o nome do usuário -->
+                <p>{{ post.mensagem }}</p>
+                <small>Postado em {{ post.criado_em|localtime|date:"d/m/Y H:i" }}</small>
+            </div>
+            <hr>
+        {% empty %}
+            <p>Nenhum post ainda...</p>
+        {% endfor %}
+
 </body>
 </html>

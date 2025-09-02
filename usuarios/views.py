@@ -1,6 +1,6 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth.models import User # na docs, mostra que já temos "criado", usamos essa model como base :D
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
 from .models import *
@@ -41,11 +41,15 @@ def login(request):
 
         if user:
             login_django(request, user)
-            return HttpResponse("OK")
+            return redirect('plataforma')
             
         else:
             return HttpResponse("noooo")
+        
+def logout_view(request):
+    logout(request)
+    return redirect('/auth/login') 
 
 @login_required(login_url='/auth/login/')
 def plataforma(request):
-    return HttpResponse("ok plataforma")
+    return HttpResponse('ok yeeeey')
