@@ -50,6 +50,10 @@ def logout_view(request):
     logout(request)
     return redirect('/auth/login') 
 
+def listar(request):
+    usuarios = User.objects.all()
+    return HttpResponse(usuarios)
+
 @login_required(login_url='/auth/login/')
 def plataforma(request):
     return HttpResponse('ok yeeeey')
