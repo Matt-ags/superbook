@@ -22,6 +22,9 @@
                 <strong>{{ post.autor.username }}</strong>  <!-- pega o nome do usuário -->
                 <p>{{ post.mensagem }}</p>
                 <small>Postado em {{ post.criado_em|localtime|date:"d/m/Y H:i" }}</small>
+                <a href="{% url 'like' post.id %}" class="btn btn-warning btn-sm">Pow!</a>
+                <p>💥 {{ post.likes.count }} Pow(s)</p>
+
             </div>
             <hr>
         {% empty %}

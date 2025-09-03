@@ -9,3 +9,11 @@ class Post(models.Model):
 
     # def __str__(self):
     #     return f"{self.autor.codinome}: {self.mensagem[:30]}..."
+
+class Pow(models.Model):
+    autor = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post,related_name="likes", on_delete=models.CASCADE)
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('autor', 'post') 

@@ -1,10 +1,10 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from django.contrib.auth.models import User # na docs, mostra que já temos "criado", usamos essa model como base :D
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
 from usuarios.models import *
-from posts.models import Post
+from posts.models import Post,Pow
 # Create your views here.
 @login_required(login_url='/auth/login/')
 def plataforma(request):
@@ -77,4 +77,16 @@ def criar_post(request):
         )
     
     return render(request, 'criar_post.html', usuario_cadastrado)
+
+@login_required(login_url='/auth/login/')
+def like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+
+    like, created = Pow.objects.get_or_create(autor=user, post=post)
+
+    if not created:
+            # já tinha curtido → remove (toggle)
+        like.delete()
+    return redirect("plataforma")
 
