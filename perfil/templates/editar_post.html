@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Post</title>
+</head>
+<body class="bg-dark text-white">
+
+    <div class="container mt-5">
+        <h1 class="mb-4">Editar Post</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nome" class="form-label">Conteúdo</label>
+                <input type="text" class="form-control" id="mensagem" name="mensagem" value="{{ post.mensagem }}" required>
+            </div>
+            <button type="submit" class="btn btn-success">Salvar</button>
+            <a href="{% url 'perfil' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+
+</body>
+</html>
