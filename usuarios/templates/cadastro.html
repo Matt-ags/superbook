@@ -6,7 +6,7 @@
     <title>Cadastro</title>
 </head>
 <body>
-    <form action="{% url 'cadastro' %}" method="post"> {% csrf_token %}
+    <form action="{% url 'cadastro' %}" method="post" enctype="multipart/form-data"> {% csrf_token %}
         <input type="text" placeholder="Codinome..." name="codinome">
         <br>
         <input type="email" placeholder="Email..." name="email">
@@ -17,6 +17,9 @@
         <br>
         <input type="text" placeholder="Poderes..." name="poderes">
         <br>
+
+        <input type="file" name="foto"><br>
+
         <input type="submit" value="Cadastrar">
     </form>
 </body>

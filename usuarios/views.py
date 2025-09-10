@@ -18,6 +18,7 @@ def cadastro(request):
 
         descricao = request.POST.get('descricao')
         poderes = request.POST.get('poderes')
+        foto = request.FILES.get("foto")
         
 
         if user:
@@ -25,7 +26,7 @@ def cadastro(request):
         
         user = User.objects.create_user(username=codinome, email=email, password=senha)
         user.save()
-        perfil = Perfil(user = user, descricao = descricao, poderes = poderes)
+        perfil = Perfil(user = user, descricao = descricao, poderes = poderes, foto = foto)
         perfil.save()
 
         return HttpResponse("cadastrado ok!")
