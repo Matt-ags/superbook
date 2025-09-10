@@ -1,18 +1,9 @@
 from django.contrib import admin
-from .models import Perfil
-
-
-
-from django.contrib import admin
-
-admin.site.site_header = "SuperBook Admin"
-admin.site.site_title = "SuperBook Painel"
-admin.site.index_title = "Bem-vindo ao SuperBook"
-
+from .models import Perfil_villain
 
 # Register your models here.
-@admin.register(Perfil)
-class HeroAdmin(admin.ModelAdmin):
+@admin.register(Perfil_villain)
+class VillainAdmin(admin.ModelAdmin):
     list_display = ['user', 'descricao', 'poderes', 'email_contato']
     list_filter = ['user']
     search_fields = ['user', 'descricao', 'poderes', 'email_contato']
