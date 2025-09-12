@@ -8,10 +8,15 @@
 </head>
 <body>
 
-    <h1>Bem-vindo, {{ usuario_cadastrado.nome_usuario }}!</h1>
-    <!-- <p><b>ID:</b> {{ id_usuario }}</p> -->
-    <p><b>Poderes:</b> {{ usuario_cadastrado.poderes_usuario }}</p>
-    <p><b>Descrição:</b> {{ usuario_cadastrado.descricao_usuario }}</p>
+    <h1>Bem-vindo, {{ perfil.user.username }}!</h1>
+
+    {% if perfil.foto %}
+    <img src="{{ perfil.foto.url }}" alt="Foto de {{ perfil.user.username }}" width="150">
+    {% else %}
+    <p>Usuário ainda não tem foto.</p>
+    {% endif %}
+    <p><b>Poderes:</b> {{ perfil.poderes }}</p>
+    <p><b>Descrição:</b> {{ perfil.descricao }}</p>
     <a href="criar_post"> Criar Post </a>
     <a href="logout"> Logout </a>
 
@@ -19,14 +24,30 @@
 
         {% for post in posts %}
             <div>
-                <strong>{{ post.autor.username }}</strong>  <!-- pega o nome do usuário -->
+                <strong>{{ post.autor.username }}</strong>
                 <p>{{ post.mensagem }}</p>
                 <small>Postado em {{ post.criado_em|localtime|date:"d/m/Y H:i" }}</small>
+                
                 <a href="{% url 'like' post.id %}" class="btn btn-warning btn-sm">Pow!</a>
                 <p>💥 {{ post.likes.count }} Pow(s)</p>
 
+                <!-- Comentários -->
+                <h4>Comentários</h4>
+                {% for comentario in post.comentarios.all %}
+                    <p><b>{{ comentario.autor.username }}:</b> {{ comentario.mensagem }}</p>
+                {% empty %}
+                    <p>Sem comentários ainda...</p>
+                {% endfor %}
+
+                <!-- Formulário de comentário -->
+                <form method="post" action="{% url 'comentar' post.id %}">
+                    {% csrf_token %}
+                    <input type="text" name="mensagem" placeholder="Escreva um comentário">
+                    <button type="submit">Comentar</button>
+                </form>
             </div>
             <hr>
+
         {% empty %}
             <p>Nenhum post ainda...</p>
         {% endfor %}
