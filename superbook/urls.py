@@ -12,7 +12,7 @@ urlpatterns = [
     path('auth/', include('usuarios.urls')),
     path('plataforma/', include('feed.urls')),
     path('plataforma/perfil/', include('perfil.urls')),
-    path('plataforma/posts/', include('posts.urls')),
+    path('plataforma/posts/', include('comentarios.urls')),
 ]
 
 if settings.DEBUG:

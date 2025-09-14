@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post de {{ post.autor }}</title>
+</head>
+<body>
+    <div>
+    <div>
+        <h5>{{ post.autor }}</h5>
+        <p>{{ post.mensagem }}</p>
+    </div>
+
+    <h5>Comentários</h5>
+    <div>
+        {% for comentario in comentarios %}
+        <div>
+            <strong>{{ comentario.autor.username }}</strong>: {{ comentario.mensagem }}
+            <br><small>{{ comentario.criado_em }}</small>
+        </div>
+        {% empty %}
+        <p>Nenhum comentário ainda.</p>
+        {% endfor %}
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <textarea name="mensagem" placeholder="Escreva um comentário..."></textarea>
+        </div>
+        <button type="submit">Comentar</button>
+    </form>
+</div>
+</body>
+</html>

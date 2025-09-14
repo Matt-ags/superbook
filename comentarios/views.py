@@ -1,13 +1,12 @@
-from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-
-# Create your views here.
-from .models import Post, Pow
-from comentarios.models import Comentario
+from posts.models import Post
+from .models import Comentario
 
 @login_required(login_url='/auth/login/')
-def comentar_post(request, post_id):
+def post_detalhes(request, post_id):
     post = get_object_or_404(Post, id=post_id)
+    comentarios = Comentario.objects.filter(post=post).order_by("criado_em")
 
     if request.method == "POST":
         mensagem = request.POST.get("mensagem")
@@ -17,4 +16,9 @@ def comentar_post(request, post_id):
                 post=post,
                 mensagem=mensagem
             )
-    return redirect("plataforma")
+        return redirect("comentarios:detalhes_post", post_id=post.id)
+
+    return render(request, "post_detalhes.html", {
+        "post": post,
+        "comentarios": comentarios
+    })

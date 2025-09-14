@@ -32,19 +32,8 @@
                 <p>💥 {{ post.likes.count }} Pow(s)</p>
 
                 <!-- Comentários -->
-                <h4>Comentários</h4>
-                {% for comentario in post.comentarios.all %}
-                    <p><b>{{ comentario.autor.username }}:</b> {{ comentario.mensagem }}</p>
-                {% empty %}
-                    <p>Sem comentários ainda...</p>
-                {% endfor %}
+                <a href="{% url 'comentarios:detalhes_post' post.id %}" class="btn btn-link">({{ post.comentarios.count }}) Comentários</a>
 
-                <!-- Formulário de comentário -->
-                <form method="post" action="{% url 'comentar' post.id %}">
-                    {% csrf_token %}
-                    <input type="text" name="mensagem" placeholder="Escreva um comentário">
-                    <button type="submit">Comentar</button>
-                </form>
             </div>
             <hr>
 
