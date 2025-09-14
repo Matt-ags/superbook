@@ -1,6 +1,7 @@
-# from django.urls import path
-# from . import views
-# urlpatters = [
-#     path('cadastro/', views.cadastro, name='cadastro'),
-#     path('login/', views.login, name='login')
-# ]
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.perfil, name='perfil'),
+    path('editar_post/<int:id>/', views.editar_post, name='editar_post'),
+]
