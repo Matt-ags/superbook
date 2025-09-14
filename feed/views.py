@@ -3,6 +3,7 @@ from django.contrib.auth.models import User # na docs, mostra que já temos "cri
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from usuarios.models import *
 from posts.models import Post,Pow
 # Create your views here.
@@ -65,3 +66,6 @@ def like(request, post_id):
         like.delete()
     return redirect("plataforma")
 
+def logout_view(request):
+    logout(request)
+    return redirect('login')
