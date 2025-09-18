@@ -1,14 +1,10 @@
+{% extends "base.html" %}
 {% load tz %}
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feed</title>
-</head>
-<body>
 
-    <h1>Bem-vindo, {{ perfil.user.username }}!</h1>
+{% block title %}Feed{% endblock %}
+
+{% block content %}
+<h1>Bem-vindo, {{ perfil.user.username }}!</h1>
 
     {% if perfil.foto %}
     <img src="{{ perfil.foto.url }}" alt="Foto de {{ perfil.user.username }}" width="150">
@@ -40,6 +36,4 @@
         {% empty %}
             <p>Nenhum post ainda...</p>
         {% endfor %}
-
-</body>
-</html>
+{% endblock %}

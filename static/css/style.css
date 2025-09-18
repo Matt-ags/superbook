@@ -5,10 +5,17 @@ body{
   font-family: "Bebas Neue", sans-serif;
   font-weight: 400;
   font-style: normal;
+  color: white;
 }
 
 p, h5, form{
     font-family: "Work Sans", sans-serif;
     font-weight: 400;
     font-style: normal;
+    color: white;
+}
+
+#sub{
+    font-weight: 500;
+    color: black;
 }
