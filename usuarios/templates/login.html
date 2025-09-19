@@ -1,13 +1,72 @@
-{% extends "base.html" %}
 
+{% extends "base.html" %}
+{% load static %}
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<form action="{% url 'login' %}" method="post"> {% csrf_token %}
-        <input type="text" placeholder="Codinome..." name="codinome">
-        <br>
-        <input type="password" placeholder="Senha..." name="senha">
-        <br>
-        <input type="submit" value="Logar">
-    </form>
+<div class="container text-light d-flex flex-column justify-content-center" style="max-width: 1000px; min-height: 100vh;">
+
+
+    <main class="container d-flex flex-column justify-content-center" style="max-width: 600px;" >
+        <form action="{% url 'login' %}" method="post" >
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" class="form-control form-control-lg bg-light border-0 shadow-sm" placeholder="Email/Codinome" name="codinome" required>
+            </div>
+            <div class="mb-4">
+                <input type="password" class="form-control form-control-lg bg-light border-0 shadow-sm" placeholder="Senha" name="senha" required>
+            </div>
+
+            {% comment %} Botões de Ação em duas colunas {% endcomment %}
+            <div class="row g-2">
+                <div class="col">
+                    <a href="/auth/cadastro" class="btn btn-lg btn-danger w-100 fw-bold" style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px;">SEM ACESSO?</a>
+                </div>
+                <div class="col">
+                    {% comment %} O botão de submit foi trocado por um <button> para facilitar a estilização, mas ainda funciona da mesma forma. {% endcomment %}
+                    <button type="submit" class="btn btn-lg btn-warning w-100 fw-bold text-dark" style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px;">ENTRAR!</button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <br>
+
+
+    <div class="d-flex align-items-center w-75 mx-auto my-4">
+        <hr class="w-100 border-warning opacity-50">
+        <div class="mx-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down text-warning opacity-50" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+            </svg>
+        </div>
+        <hr class="w-100 border-warning opacity-50">
+    </div>
+
+    <div class="container d-flex flex-row justify-content-between" style="gap: 10px;">
+        <div class="w-100" style="background-image: url({% static 'img/cuate.png' %}); background-size: cover;">
+    
+        </div>
+
+        <div>
+            <div class="text-left text-white-50 my-4">
+                <p>Você não já se sentiu sozinho no meio da confusão? De salvar o mundo, de lutar contra as forças do mal, mas sem espaço para compartilhar quem você é de verdade?</p>
+                <p>O Super Book nasceu justamente para isso. Seja um refúgio, onde os heróis podem se conectar sem revelar suas identidades.</p>
+                <p>Mais do que uma rede social, é uma comunidade. Um lugar para trocar experiências e saber que, mesmo nos dias mais difíceis, você não está sozinho.</p>
+            </div>
+
+            <div class="text-center my-4">
+                <h2 class="d-inline-block pb-1 text-warning border-bottom border-2 border-warning" style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px;">
+                    JUNTE-SE AGORA MESMO!
+                </h2>
+            </div>
+        </div>
+
+        
+    </div>
+
+    
+
+
+</div>
 {% endblock %}

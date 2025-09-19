@@ -5,33 +5,46 @@
 
 {% block content %}
 <h1>Bem-vindo, {{ perfil.user.username }}!</h1>
-
-    {% if perfil.foto %}
-    <img src="{{ perfil.foto.url }}" alt="Foto de {{ perfil.user.username }}" width="150">
-    {% else %}
-    <p>Usuário ainda não tem foto.</p>
-    {% endif %}
-    <p><b>Poderes:</b> {{ perfil.poderes }}</p>
-    <p><b>Descrição:</b> {{ perfil.descricao }}</p>
-    <a href="criar_post"> Criar Post </a>
-    <a href="logout"> Logout </a>
+<hr>
 
     <h2>Feed de Posts</h2>
+    <br>
 
         {% for post in posts %}
-            <div>
-                <strong>{{ post.autor.username }}</strong>
-                <p>{{ post.mensagem }}</p>
-                <small>Postado em {{ post.criado_em|localtime|date:"d/m/Y H:i" }}</small>
-                
-                <a href="{% url 'like' post.id %}" class="btn btn-warning btn-sm">Pow!</a>
-                <p>💥 {{ post.likes.count }} Pow(s)</p>
+            <div class="card mb-4 border-warning shadow-sm" style="background-color:#122037; color: antiquewhite;">
+                <div class="card-body">
+                    <!-- Título e Autor -->
+                    <h5 class="card-title mb-1">Card title</h5>
+                    <h6 class="card-subtitle" id="username">@{{ post.autor.username }}</h6>
 
-                <!-- Comentários -->
-                <a href="{% url 'comentarios:detalhes_post' post.id %}" class="btn btn-link">({{ post.comentarios.count }}) Comentários</a>
+                    <!-- Mensagem -->
+                    <p class="card-text mt-3">{{ post.mensagem }}</p>
+                    <small class="text-light">Postado em {{ post.criado_em|localtime|date:"d/m/Y H:i" }}</small>
 
+                    <hr class="border-light">
+
+                    <!-- Ações -->
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                    
+                    <!-- Comentários -->
+                    <a href="{% url 'comentarios:detalhes_post' post.id %}" 
+                        class="btn btn-sm btn-outline-light">
+                        💬 {{ post.comentarios.count }} Comentário(s)
+                    </a>
+
+                    <!-- Likes -->
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold">💥 {{ post.likes.count }}</span>
+                        <a href="{% url 'like' post.id %}" 
+                        class="btn btn-sm btn-warning fw-bold shadow-sm">
+                        Pow!
+                        </a>
+                    </div>
+
+                    </div>
+                </div>
             </div>
-            <hr>
+
 
         {% empty %}
             <p>Nenhum post ainda...</p>

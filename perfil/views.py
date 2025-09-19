@@ -8,29 +8,9 @@ from posts.models import Post
 # Create your views here.
 @login_required(login_url='/auth/login/')
 def perfil(request):
-
-    # BUSCANDO DADOS DO USUARIO: 
-
-    user_username = request.user.username # NOME
-    user_user_id = request.user.id # ID
-    dados_user = Perfil.objects.filter(user_id=user_user_id) # SELECT COM OUTRAS INFORMAÇÕES
-    posts = Post.objects.filter(autor_id=user_user_id) 
-
-    if dados_user: # SE CONSEGUIU ACHAR
-        user_infs = dados_user[0] # PEGA O QUE ACHOU (é confuso, mas só estamos acessando o dado, que no caso, o primeiro é o que importa)
-
-        poderes = user_infs.poderes # poderes
-        descricao = user_infs.descricao # descrição
-    
-    usuario_cadastrado = { # objeto com as informações bases
-        'nome_usuario': user_username,
-        'id_usuario': user_user_id,
-        'dadosbrutos_usuario': dados_user,
-        'poderes_usuario': poderes,
-        'descricao_usuario': descricao
-    }
-    
-    return render(request, 'perfil.html', {'usuario_cadastrado': usuario_cadastrado, 'posts': posts})
+    perfil = Perfil.objects.get(user=request.user)  # pega o perfil do usuário logado
+    posts = Post.objects.filter(autor=request.user).order_by('-criado_em')  # só posts dele
+    return render(request, 'perfil.html', {'perfil': perfil, 'posts': posts})
 
 @login_required(login_url='/auth/login/')
 def editar_post(request, id):

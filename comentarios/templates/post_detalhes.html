@@ -1,36 +1,52 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post de {{ post.autor }}</title>
-</head>
-<body>
-    <div>
-    <div>
-        <h5>{{ post.autor }}</h5>
-        <p>{{ post.mensagem }}</p>
-    </div>
+{% extends "base.html" %}
+{% load tz %}
 
-    <h5>Comentários</h5>
-    <div>
-        {% for comentario in comentarios %}
-        <div>
-            <strong>{{ comentario.autor.username }}</strong>: {{ comentario.mensagem }}
-            <br><small>{{ comentario.criado_em }}</small>
+{% block title %}Post de {{ post.autor.username }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <!-- Post -->
+  <div class="card mb-4 border-warning shadow-sm" style="background-color:#0f1a2b; color: antiquewhite;">
+    <div class="card-body">
+      <h5 class="text-warning">@{{ post.autor.username }}</h5>
+      <p class="mb-1">{{ post.mensagem }}</p>
+      <small class="text-light">📅 {{ post.criado_em|localtime|date:"d/m/Y H:i" }}</small>
+    </div>
+  </div>
+
+  <!-- Comentários -->
+  <div class="card mb-4 border-0 shadow-sm" style="background-color:#122037; color: antiquewhite;">
+    <div class="card-body">
+      <h5 class="text-warning mb-3">💬 Comentários</h5>
+
+      {% for comentario in comentarios %}
+        <div class="mb-3 pb-2 border-bottom border-secondary">
+          <strong class="text-warning">@{{ comentario.autor.username }}</strong>  
+          <p class="mb-1">{{ comentario.mensagem }}</p>
+          <small class="text-light">📅 {{ comentario.criado_em|localtime|date:"d/m/Y H:i" }}</small>
         </div>
-        {% empty %}
-        <p>Nenhum comentário ainda.</p>
-        {% endfor %}
+      {% empty %}
+        <p class="text-light">Nenhum comentário ainda.</p>
+      {% endfor %}
     </div>
+  </div>
 
-    <form method="POST">
+  <!-- Formulário de comentário -->
+  <div class="card border-0 shadow-sm" style="background-color:#0f1a2b; color: antiquewhite;">
+    <div class="card-body">
+      <h5 class="text-warning mb-3">✍️ Novo comentário</h5>
+      <form method="POST" class="d-flex flex-column gap-3">
         {% csrf_token %}
-        <div>
-            <textarea name="mensagem" placeholder="Escreva um comentário..."></textarea>
+        <textarea name="mensagem" rows="3" placeholder="Escreva um comentário..."
+                  class="form-control rounded-3 border-0 shadow-sm"
+                  style="background-color:#122037; color: antiquewhite;"></textarea>
+        <div class="text-end">
+          <button type="submit" class="btn btn-warning fw-bold shadow-sm">💬 Comentar</button>
         </div>
-        <button type="submit">Comentar</button>
-    </form>
+      </form>
+    </div>
+  </div>
+
 </div>
-</body>
-</html>
+{% endblock %}

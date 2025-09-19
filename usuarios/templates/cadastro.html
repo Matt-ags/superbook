@@ -3,20 +3,92 @@
 {% block title %}Cadastro{% endblock %}
 
 {% block content %}
-<form action="{% url 'cadastro' %}" method="post" enctype="multipart/form-data"> {% csrf_token %}
-        <input type="text" placeholder="Codinome..." name="codinome">
-        <br>
-        <input type="email" placeholder="Email..." name="email">
-        <br>
-        <input type="password" placeholder="Senha..." name="senha">
-        <br>
-        <input type="text" placeholder="Descricao..." name="descricao">
-        <br>
-        <input type="text" placeholder="Poderes..." name="poderes">
-        <br>
+<div class="container my-5">
+    <div class="card border-warning shadow-sm mx-auto" style="max-width: 600px; background-color:#0f1a2b; color: antiquewhite;">
+        <div class="card-body p-4">
 
-        <input type="file" name="foto"><br>
+            <h3 class="text-warning mb-4 text-center">📝 Cadastro de Herói</h3>
 
-        <input type="submit" value="Cadastrar">
-    </form>
+            <form action="{% url 'cadastro' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <ul class="nav nav-tabs nav-fill mb-4" id="cadastroTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="identidade-tab" data-bs-toggle="tab" data-bs-target="#identidade-pane" type="button" role="tab" aria-controls="identidade-pane" aria-selected="true">
+                            <strong>Passo 1:</strong> Identidade
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link disabled" id="perfil-tab" data-bs-toggle="tab" data-bs-target="#perfil-pane" type="button" role="tab" aria-controls="perfil-pane" aria-selected="false">
+                            <strong>Passo 2:</strong> Perfil
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="cadastroTabContent">
+
+                    <div class="tab-pane fade show active" id="identidade-pane" role="tabpanel" aria-labelledby="identidade-tab" tabindex="0">
+                        <div class="d-flex flex-column gap-3">
+                            <div>
+                                <label for="codinome" class="form-label fw-bold text-light">Codinome</label>
+                                <input type="text" class="form-control" id="codinome" name="codinome" placeholder="Digite seu codinome..." style="background-color:#122037; color: antiquewhite; border: 1px solid #333;">
+                            </div>
+                            <div>
+                                <label for="email" class="form-label fw-bold text-light">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu email..." style="background-color:#122037; color: antiquewhite; border: 1px solid #333;">
+                            </div>
+                            <div>
+                                <label for="senha" class="form-label fw-bold text-light">Senha</label>
+                                <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha..." style="background-color:#122037; color: antiquewhite; border: 1px solid #333;">
+                            </div>
+                            <div class="text-end mt-3">
+                                <button type="button" class="btn btn-outline-warning fw-bold" id="btn-next-step">Próximo &rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="perfil-pane" role="tabpanel" aria-labelledby="perfil-tab" tabindex="0">
+                        <div class="d-flex flex-column gap-3">
+                            <div>
+                                <label for="descricao" class="form-label fw-bold text-light">Descrição</label>
+                                <textarea class="form-control" id="descricao" name="descricao" rows="3" placeholder="Fale um pouco sobre você..." style="background-color:#122037; color: antiquewhite; border: 1px solid #333;"></textarea>
+                            </div>
+                            <div>
+                                <label for="poderes" class="form-label fw-bold text-light">Poderes</label>
+                                <input type="text" class="form-control" id="poderes" name="poderes" placeholder="Liste seus poderes..." style="background-color:#122037; color: antiquewhite; border: 1px solid #333;">
+                            </div>
+                            <div>
+                                <label for="foto" class="form-label fw-bold text-light">Foto de Perfil</label>
+                                <input type="file" class="form-control" id="foto" name="foto" style="background-color:#122037; color: antiquewhite; border: 1px solid #333;">
+                            </div>
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn btn-warning fw-bold shadow-sm px-4">🚀 Cadastrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Seleciona o botão que avança para o próximo passo
+    const btnNextStep = document.getElementById('btn-next-step');
+    
+    // Seleciona o gatilho da aba de perfil
+    const perfilTabTrigger = document.getElementById('perfil-tab');
+
+    // Adiciona um evento de clique ao botão "Próximo"
+    btnNextStep.addEventListener('click', function () {
+        // Remove a classe 'disabled' da segunda aba para torná-la clicável
+        perfilTabTrigger.classList.remove('disabled');
+
+        // Cria uma instância da aba do Bootstrap
+        const tab = new bootstrap.Tab(perfilTabTrigger);
+
+        // Mostra a segunda aba programaticamente
+        tab.show();
+    });
+</script>
 {% endblock %}

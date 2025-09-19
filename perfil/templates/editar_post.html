@@ -1,24 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Post</title>
-</head>
-<body class="bg-dark text-white">
+{% extends "base.html" %}
 
-    <div class="container mt-5">
-        <h1 class="mb-4">Editar Post</h1>
+{% block title %}Editar Post{% endblock %}
 
-        <form method="POST">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="nome" class="form-label">Conteúdo</label>
-                <input type="text" class="form-control" id="mensagem" name="mensagem" value="{{ post.mensagem }}" required>
-            </div>
-            <button type="submit" class="btn btn-success">Salvar</button>
-            <a href="{% url 'perfil' %}" class="btn btn-secondary">Cancelar</a>
-        </form>
+{% block content %}
+<div class="container my-5">
+
+  <!-- Card de edição -->
+  <div class="card border-warning shadow-sm mx-auto" style="max-width: 600px; background-color:#0f1a2b; color: antiquewhite;">
+    <div class="card-body">
+      
+      <h3 class="text-warning mb-4">✍️ Editar Post</h3>
+
+      <form method="POST" class="d-flex flex-column gap-3">
+        {% csrf_token %}
+
+        <!-- Campo de edição -->
+        <div>
+          <label for="mensagem" class="form-label fw-bold text-light">Conteúdo</label>
+          <textarea class="form-control rounded-3 border-0 shadow-sm"
+                    id="mensagem"
+                    name="mensagem"
+                    rows="4"
+                    required
+                    style="background-color:#122037; color: antiquewhite;">{{ post.mensagem }}</textarea>
+        </div>
+
+        <!-- Botões -->
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'perfil' %}" class="btn btn-outline-light shadow-sm">❌ Cancelar</a>
+          <button type="submit" class="btn btn-warning fw-bold shadow-sm">💾 Salvar</button>
+        </div>
+      </form>
+
     </div>
+  </div>
 
-</body>
-</html>
+</div>
+{% endblock %}
