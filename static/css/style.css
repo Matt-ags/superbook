@@ -23,3 +23,80 @@ p, h5, form{
 #username{
   color: blanchedalmond;
 }
+/* --- GERAL E SETUP (Manter seus estilos anteriores, mas revisar estes) --- */
+body {
+    background-image: url('{% static "img/background.png" %}'); /* Ajuste se o caminho for diferente */
+    background-color: #122037;
+    color: #F0EFEA;
+    display: flex; /* Para o rodapé ficar no final */
+    flex-direction: column; /* Para o rodapé ficar no final */
+    min-height: 100vh; /* Para o rodapé ficar no final */
+    padding-bottom: 90px; /* Espaço para a action-bar */
+    position: relative; /* Importante para o cálculo do JS */
+}
+
+main {
+    flex-grow: 1; /* Garante que o conteúdo principal ocupe o espaço restante */
+}
+
+/* --- BARRA DE AÇÕES (ACTION-BAR) --- */
+.action-bar {
+    background-color: #0f1a2b; /* Fundo escuro */
+    border-top: 3px solid #FBC94D; /* Borda amarela */
+    padding: 1rem 0; /* Aumenta a altura */
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+    
+    /* Posição inicial: relativa ao fluxo, como se estivesse no final do body */
+    position: absolute; /* Usamos absolute para o JS ter controle total */
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/* Estado FIXO da barra de ações - controlado pelo JS */
+.action-bar.fixed-bottom-active {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    animation: slideUp 0.4s ease-out; /* Animação ao aparecer */
+}
+
+/* Animação de entrada */
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ÍCONES E TEXTO DA BARRA DE AÇÕES */
+.action-item {
+    color: #8a93a2; /* Cinza para inativos */
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.action-item:hover {
+    color: #ffffff; /* Branco ao passar o mouse */
+    transform: translateY(-4px); /* Pequeno efeito de levantamento */
+}
+
+.action-item i {
+    font-size: 1.8rem; /* Ícones maiores */
+}
+
+.action-item span {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Estilo do item ATIVO */
+.action-item.active {
+    color: #FBC94D; /* Amarelo para o item ativo */
+}
