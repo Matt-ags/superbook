@@ -21,8 +21,14 @@
       <h5 class="text-warning mb-3">💬 Comentários</h5>
 
       {% for comentario in comentarios %}
-        <div class="mb-3 pb-2 border-bottom border-secondary">
+        <div class="mb-3 pb-2 border-bottom border-secondary ">
+          <img src="{{ comentario.autor.perfil.foto.url }}" 
+     alt="Foto de {{ comentario.autor.username }}"
+     class="rounded-circle border border-1 border-warning m-1"
+     width="40" height="40">
+
           <strong class="text-warning">@{{ comentario.autor.username }}</strong>  
+
           <p class="mb-1">{{ comentario.mensagem }}</p>
           <small class="text-light">📅 {{ comentario.criado_em|localtime|date:"d/m/Y H:i" }}</small>
         </div>

@@ -20,5 +20,5 @@ def post_detalhes(request, post_id):
 
     return render(request, "post_detalhes.html", {
         "post": post,
-        "comentarios": comentarios
+        "comentarios": comentarios,
     })
