@@ -29,7 +29,9 @@ def cadastro(request):
         perfil = Perfil(user = user, descricao = descricao, poderes = poderes, foto = foto)
         perfil.save()
 
-        return HttpResponse("cadastrado ok!")
+        login_django(request, user)
+
+        return redirect('plataforma')
 
 def login(request):
     if request.method == "GET":
@@ -57,4 +59,4 @@ def listar(request):
 
 @login_required(login_url='/auth/login/')
 def plataforma(request):
-    return HttpResponse('ok yeeeey')
+    return redirect('plataforma')
