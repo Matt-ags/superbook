@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card border-0 shadow-lg mx-auto" style="max-width: 650px; background: linear-gradient(145deg, #0a0a0a, #1b0f0f); color: #e6d5c3; border-radius: 1rem;">
+    <div class="card-body p-5">
+
+      <h2 class="text-danger mb-4 text-center fw-bold" style="letter-spacing: 1px; font-family: 'Bebas Neue', sans-serif; text-shadow: 0 0 10px #c40000;">
+        😈 Cadastro de Vilão
+      </h2>
+
+      <form action="{% url 'cadastro' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Nav Tabs -->
+        <ul class="nav nav-tabs nav-justified mb-4 border-0" id="cadastroTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active fw-bold text-light" id="identidade-tab"
+              data-bs-toggle="tab" data-bs-target="#identidade-pane" type="button" role="tab"
+              aria-controls="identidade-pane" aria-selected="true"
+              style="background-color:#1b0f0f; border-radius: .5rem .5rem 0 0; border: 1px solid #400000;">
+              1️⃣ Identidade
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link disabled fw-bold text-light" id="perfil-tab"
+              data-bs-toggle="tab" data-bs-target="#perfil-pane" type="button" role="tab"
+              aria-controls="perfil-pane" aria-selected="false"
+              style="background-color:#1b0f0f; border-radius: .5rem .5rem 0 0; border: 1px solid #400000;">
+              2️⃣ Perfil
+            </button>
+          </li>
+        </ul>
+
+        <!-- Conteúdo Tabs -->
+        <div class="tab-content" id="cadastroTabContent">
+
+          <!-- Passo 1 -->
+          <div class="tab-pane fade show active" id="identidade-pane" role="tabpanel" aria-labelledby="identidade-tab">
+            <div class="d-flex flex-column gap-3">
+
+              <div>
+                <label for="codinome" class="form-label fw-bold text-light">🕶️ Codinome</label>
+                <input type="text" class="form-control shadow-sm" id="codinome" name="codinome"
+                  placeholder="Digite seu codinome sombrio..."
+                  style="background-color:#0d0d0d; color: #f0e1d1; border: 1px solid #5c0000;">
+              </div>
+
+              <div>
+                <label for="email" class="form-label fw-bold text-light">📧 Email</label>
+                <input type="email" class="form-control shadow-sm" id="email" name="email"
+                  placeholder="Digite seu email..."
+                  style="background-color:#0d0d0d; color: #f0e1d1; border: 1px solid #5c0000;">
+              </div>
+
+              <div>
+                <label for="senha" class="form-label fw-bold text-light">🔒 Senha</label>
+                <input type="password" class="form-control shadow-sm" id="senha" name="senha"
+                  placeholder="Digite sua senha secreta..."
+                  style="background-color:#0d0d0d; color: #f0e1d1; border: 1px solid #5c0000;">
+              </div>
+
+              <div class="text-end mt-3">
+                <button type="button" class="btn fw-bold px-4 shadow-sm" id="btn-next-step"
+                  style="background-color:transparent; border:1px solid #ff1a1a; color:#ff1a1a; transition:0.3s;">
+                  Próximo &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Passo 2 -->
+          <div class="tab-pane fade" id="perfil-pane" role="tabpanel" aria-labelledby="perfil-tab">
+            <div class="d-flex flex-column gap-3">
+
+              <div>
+                <label for="descricao" class="form-label fw-bold text-light">📝 Descrição</label>
+                <textarea class="form-control shadow-sm" id="descricao" name="descricao" rows="3"
+                  placeholder="Fale sobre seus planos maléficos..."
+                  style="background-color:#0d0d0d; color: #f0e1d1; border: 1px solid #5c0000;"></textarea>
+              </div>
+
+              <div>
+                <label for="poderes" class="form-label fw-bold text-light">⚡ Poderes</label>
+                <input type="text" class="form-control shadow-sm" id="poderes" name="poderes"
+                  placeholder="Liste seus poderes sombrios..."
+                  style="background-color:#0d0d0d; color: #f0e1d1; border: 1px solid #5c0000;">
+              </div>
+
+              <div>
+                <label for="foto" class="form-label fw-bold text-light">🖼️ Foto de Perfil</label>
+                <input type="file" class="form-control shadow-sm" id="foto" name="foto"
+                  style="background-color:#0d0d0d; color: #f0e1d1; border: 1px solid #5c0000;">
+              </div>
+
+              <div class="text-center mt-4">
+                <button type="submit" class="btn fw-bold shadow px-5 py-2 rounded-pill"
+                  style="background: linear-gradient(90deg, #c40000, #600000); color: #fff; border: none; transition: 0.3s;">
+                  🚀 Concluir Conspiração
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const btnNextStep = document.getElementById('btn-next-step');
+  const perfilTabTrigger = document.getElementById('perfil-tab');
+
+  btnNextStep.addEventListener('click', function () {
+    perfilTabTrigger.classList.remove('disabled');
+    const tab = new bootstrap.Tab(perfilTabTrigger);
+    tab.show();
+  });
+
+  // Efeitos visuais extras
+  btnNextStep.addEventListener('mouseenter', () => {
+    btnNextStep.style.backgroundColor = '#ff1a1a';
+    btnNextStep.style.color = '#000';
+    btnNextStep.style.boxShadow = '0 0 15px #ff1a1a';
+  });
+  btnNextStep.addEventListener('mouseleave', () => {
+    btnNextStep.style.backgroundColor = 'transparent';
+    btnNextStep.style.color = '#ff1a1a';
+    btnNextStep.style.boxShadow = 'none';
+  });
+</script>
+{% endblock %}

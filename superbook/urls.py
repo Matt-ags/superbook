@@ -13,6 +13,9 @@ urlpatterns = [
     path('plataforma/', include('feed.urls')),
     path('plataforma/perfil/', include('perfil.urls')),
     path('plataforma/posts/', include('comentarios.urls')),
+
+    # viloes
+    path('viloes/', include('viloes.urls'))
 ]
 
 if settings.DEBUG:
