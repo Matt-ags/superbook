@@ -5,14 +5,26 @@ from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from usuarios.models import *
+from viloes.models import Perfil_viloes
 from posts.models import Post,Pow
 # Create your views here.
 @login_required(login_url='/auth/login/')
 def plataforma(request):
-    perfil = Perfil.objects.get(user=request.user)
+    user = request.user
+
+    # tenta achar o perfil do herói ou vilão
+    perfil = Perfil.objects.filter(user=user).first() or Perfil_viloes.objects.filter(user=user).first()
+
+    # se nenhum perfil for encontrado (caso raro)
+    if not perfil:
+        return render(request, 'erro.html', {'mensagem': 'Perfil não encontrado.'})
+
     posts = Post.objects.all()
-    print(perfil.foto)
-    return render(request, 'feed.html', {'perfil': perfil, 'posts': posts})
+
+    return render(request, 'feed.html', {
+        'perfil': perfil,
+        'posts': posts,
+    })
 
 @login_required(login_url='/auth/login/')
 def criar_post(request):
