@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Minha App{% endblock %}</title>
+    <title>{% block title %}SuperBook{% endblock %}</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
@@ -15,41 +15,64 @@
     <!-- Seu CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body class="wrapper d-flex flex-column min-vh-100" style="background-image: url({% static 'img/background.png' %}); background-color: #122037;">
 
-    <!-- Header fixo -->
-    <div class="text-center bg-warning">
+{# ⚡ Detecta tipo de usuário: se o nome da classe do perfil for 'Perfil_viloes', aplica tema vilão #}
+{% if  tipo_perfil == 'vilao' %}
+<body class="wrapper d-flex flex-column min-vh-100" 
+      style="background-image: url({% static 'img/background_vilao.png' %});
+             background-color: #200414;
+             color: #fff;">
+{% else %}
+<body class="wrapper d-flex flex-column min-vh-100" 
+      style="background-image: url({% static 'img/background.png' %});
+             background-color: #122037;">
+{% endif %}
+
+    <!-- Header -->
+    <div class="text-center {% if tipo_perfil == 'vilao' %}bg-danger{% else %}bg-warning{% endif %}">
         <br>
         <img class="img-fluid" src="{% static 'img/logo.png' %}" style="width: 40%; max-width: 400px;" alt="Logótipo">
-        <h5 id="sub">Onde os heróis se encontram</h5>
+
+        {% if  tipo_perfil == 'vilao' %}
+            <h5 id="sub" class="text-light">Onde os vilões tramam seus planos</h5>
+        {% else %}
+            <h5 id="sub">Onde os heróis se encontram</h5>
+        {% endif %}
         <br>
     </div>
 
-    <!-- Aqui entra o conteúdo que muda -->
+    <!-- Conteúdo -->
     <main class="container my-4">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="bg-dark text-light pt-5 pb-4 mt-auto">
+    <!-- Footer -->
+    <footer class="{% if  tipo_perfil == 'vilao' %}bg-dark text-danger{% else %}bg-dark text-light{% endif %} pt-5 pb-4 mt-auto">
         <div class="container text-center text-md-start">
             <div class="row text-center text-md-start">
 
                 <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Super Book</h5>
-                    <p style="color: #ccc;">
-                        A comunidade definitiva para heróis compartilharem suas jornadas, encontrarem apoio e se conectarem sem revelar suas identidades secretas.
-                    </p>
+                    <h5 class="text-uppercase mb-4 fw-bold {% if  tipo_perfil == 'vilao' %}text-danger{% else %}text-warning{% endif %}">
+                        Super Book
+                    </h5>
+                    {% if  tipo_perfil == 'vilao' %}
+                        <p style="color: #bbb;">A rede sombria onde mentes malignas compartilham seus planos secretos.</p>
+                    {% else %}
+                        <p style="color: #ccc;">A comunidade definitiva para heróis compartilharem suas jornadas e se conectarem anonimamente.</p>
+                    {% endif %}
                 </div>
 
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 fw-bold text-warning">Contato</h5>
+                    <h5 class="text-uppercase mb-4 fw-bold {% if  tipo_perfil == 'vilao' %}text-danger{% else %}text-warning{% endif %}">
+                        Contato
+                    </h5>
                     <p style="color: #ccc;"><i class="bi bi-geo-alt-fill me-2"></i> Metrópolis, DC 12345</p>
                     <p style="color: #ccc;"><i class="bi bi-envelope-fill me-2"></i> contato@superbook.com</p>
                     <p style="color: #ccc;"><i class="bi bi-telephone-fill me-2"></i> +1 555 123 4567</p>
                 </div>
             </div>
 
-            <hr class="mb-4 border-warning opacity-50">
+            <hr class="mb-4 {% if  tipo_perfil == 'vilao' %}border-danger{% else %}border-warning{% endif %} opacity-50">
 
             <div class="row align-items-center">
                 <div class="col-md-7 col-lg-8">

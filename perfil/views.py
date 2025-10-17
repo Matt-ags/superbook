@@ -4,13 +4,30 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
 from usuarios.models import *
+from viloes.models import *
 from posts.models import Post
 # Create your views here.
+
+    
 @login_required(login_url='/auth/login/')
 def perfil(request):
-    perfil = Perfil.objects.get(user=request.user)  # pega o perfil do usuário logado
+
+    perfil = None
+    tipo = "heroi"
+
+    # Tenta pegar perfil de herói
+    try:
+        perfil = Perfil.objects.get(user=request.user)
+    except Perfil.DoesNotExist:
+        # Se não for herói, tenta pegar perfil de vilão
+        try:
+            perfil = Perfil_viloes.objects.get(user=request.user)
+            tipo = "vilao"
+        except Perfil_viloes.DoesNotExist:
+            pass
+
     posts = Post.objects.filter(autor=request.user).order_by('-criado_em')  # só posts dele
-    return render(request, 'perfil.html', {'perfil': perfil, 'posts': posts})
+    return render(request, 'perfil.html', {'perfil': perfil, 'posts': posts, 'tipo_perfil': tipo})
 
 @login_required(login_url='/auth/login/')
 def editar_post(request, id):

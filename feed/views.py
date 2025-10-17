@@ -10,21 +10,28 @@ from posts.models import Post,Pow
 # Create your views here.
 @login_required(login_url='/auth/login/')
 def plataforma(request):
-    user = request.user
+    perfil = None
+    tipo = "heroi"
 
-    # tenta achar o perfil do herói ou vilão
-    perfil = Perfil.objects.filter(user=user).first() or Perfil_viloes.objects.filter(user=user).first()
-
-    # se nenhum perfil for encontrado (caso raro)
-    if not perfil:
-        return render(request, 'erro.html', {'mensagem': 'Perfil não encontrado.'})
+    # Tenta pegar perfil de herói
+    try:
+        perfil = Perfil.objects.get(user=request.user)
+    except Perfil.DoesNotExist:
+        # Se não for herói, tenta pegar perfil de vilão
+        try:
+            perfil = Perfil_viloes.objects.get(user=request.user)
+            tipo = "vilao"
+        except Perfil_viloes.DoesNotExist:
+            pass
 
     posts = Post.objects.all()
 
     return render(request, 'feed.html', {
         'perfil': perfil,
         'posts': posts,
+        'tipo_perfil': tipo,  # 🔥 adiciona essa variável
     })
+
 
 @login_required(login_url='/auth/login/')
 def criar_post(request):
