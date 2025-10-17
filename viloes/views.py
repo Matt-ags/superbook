@@ -5,7 +5,7 @@ from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
 from .models import *
 # Create your views here.
-def cadastro(request):
+def cadastro_v(request):
     if request.method == "GET":
         return render(request, 'cadastro_viloes.html')
     else:
@@ -33,7 +33,7 @@ def cadastro(request):
 
         return redirect('plataforma')
 
-def login(request):
+def login_v(request):
     if request.method == "GET":
         return render(request, 'login.html')
     else:
