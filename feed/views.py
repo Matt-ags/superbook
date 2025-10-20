@@ -38,9 +38,26 @@ def criar_post(request):
 
     # BUSCANDO DADOS DO USUARIO: 
 
+    perfil = None
+    tipo = "heroi"
+
+    # Tenta pegar perfil de herói
+    try:
+        perfil = Perfil.objects.get(user=request.user)
+    except Perfil.DoesNotExist:
+        # Se não for herói, tenta pegar perfil de vilão
+        try:
+            perfil = Perfil_viloes.objects.get(user=request.user)
+            tipo = "vilao"
+        except Perfil_viloes.DoesNotExist:
+            pass
+
     user_username = request.user.username # NOME
     user_user_id = request.user.id # ID
     dados_user = Perfil.objects.filter(user_id=user_user_id) # SELECT COM OUTRAS INFORMAÇÕES
+
+    poderes = ""
+    descricao = ""
     # print(user_username)
     # print(user_user_id)
     # print(dados_user)
@@ -59,7 +76,9 @@ def criar_post(request):
         'id_usuario': user_user_id,
         'dadosbrutos_usuario': dados_user,
         'poderes_usuario': poderes,
-        'descricao_usuario': descricao
+        'descricao_usuario': descricao,
+        'perfil': perfil,
+        'tipo_perfil': tipo, 
     }
 
     if request.method == "POST":
