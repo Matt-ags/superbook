@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     path('', views.perfil, name='perfil'),
     path('editar_post/<int:id>/', views.editar_post, name='editar_post'),
+    path('editar_perfil/', views.editar_perfil, name='editar_perfil'),
 ]

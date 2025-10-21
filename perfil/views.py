@@ -30,6 +30,76 @@ def perfil(request):
     return render(request, 'perfil.html', {'perfil': perfil, 'posts': posts, 'tipo_perfil': tipo})
 
 @login_required(login_url='/auth/login/')
+def editar_perfil(request):
+
+    perfil = None
+    tipo = None
+    profile_exists = True
+
+    # 1. VERIFICA O PERFIL (Lógica GET) - Sem mudanças
+    try:
+        perfil = Perfil.objects.get(user=request.user)
+        tipo = "heroi"
+    except Perfil.DoesNotExist:
+        try:
+            perfil = Perfil_viloes.objects.get(user=request.user)
+            tipo = "vilao"
+        except Perfil_viloes.DoesNotExist:
+            perfil = None
+            profile_exists = False 
+            
+    # 2. PROCESSA O FORMULÁRIO (Lógica POST)
+    if request.method == 'POST':
+        # Pega os dados de texto
+        descricao_data = request.POST.get('descricao')
+        poderes_data = request.POST.get('poderes', 'Nenhum')
+        
+        # MUDANÇA AQUI: Pega o arquivo de imagem
+        # request.FILES é onde as imagens chegam, não request.POST
+        foto_data = request.FILES.get('foto', None) # Pega 'None' se nenhum arquivo for enviado
+
+        if profile_exists:
+            # --- MODO ATUALIZAÇÃO ---
+            perfil.descricao = descricao_data
+            perfil.poderes = poderes_data
+            
+            # MUDANÇA AQUI: Só atualiza a foto se uma NOVA foto foi enviada
+            if foto_data:
+                perfil.foto = foto_data
+                
+            perfil.save()
+        
+        else:
+            # --- MODO CRIAÇÃO ---
+            tipo_data = request.POST.get('tipo_perfil')
+
+            if tipo_data == 'heroi':
+                Perfil.objects.create(
+                    user=request.user,
+                    descricao=descricao_data,
+                    poderes=poderes_data,
+                    foto=foto_data  # MUDANÇA AQUI: Adiciona a foto
+                )
+            elif tipo_data == 'vilao':
+                 Perfil_viloes.objects.create(
+                    user=request.user,
+                    descricao=descricao_data,
+                    poderes=poderes_data,
+                    foto=foto_data  # MUDANÇA AQUI: Adiciona a foto
+                )
+
+        # 3. REDIRECIONA
+        return redirect('perfil') 
+
+    # 4. RENDERIZA A PÁGINA (Lógica GET)
+    context = {
+        'perfil': perfil,
+        'tipo_perfil': tipo,
+        'profile_exists': profile_exists
+    }
+    return render(request, 'editar_perfil.html', context)
+
+@login_required(login_url='/auth/login/')
 def editar_post(request, id):
     post = get_object_or_404(Post, id=id)
     if request.method == "POST":
