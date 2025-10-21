@@ -24,7 +24,7 @@ def perfil(request):
             perfil = Perfil_viloes.objects.get(user=request.user)
             tipo = "vilao"
         except Perfil_viloes.DoesNotExist:
-            pass
+            perfil = User.objects.filter()
 
     posts = Post.objects.filter(autor=request.user).order_by('-criado_em')  # só posts dele
     return render(request, 'perfil.html', {'perfil': perfil, 'posts': posts, 'tipo_perfil': tipo})

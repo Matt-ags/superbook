@@ -46,7 +46,18 @@ INSTALLED_APPS = [
     'posts',
     'usuarios',
     'comentarios',
-    'viloes'
+    'viloes',
+
+    # ... apps do django
+    'django.contrib.sites',  # <-- Necessário para o allauth
+
+    # Apps do Allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # Provider específico (Google)
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +68,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Adicione esta linha:
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'superbook.urls'
@@ -133,3 +147,35 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# settings.py
+SITE_ID = 1
+
+# settings.py
+AUTHENTICATION_BACKENDS = [
+    # Necessário para logar no admin com usuário e senha
+    'django.contrib.auth.backends.ModelBackend',
+
+    # Backend de autenticação específico do allauth
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# settings.py
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # O que vamos pedir ao Google
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        # Como vamos pedir (login padrão)
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
+# settings.py
+LOGIN_REDIRECT_URL = '/'  # Vai para a página inicial
+LOGOUT_REDIRECT_URL = '/' # Vai para a página inicial

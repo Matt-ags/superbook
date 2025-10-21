@@ -1,5 +1,6 @@
 
 {% extends "base.html" %}
+{% load socialaccount %}
 {% load static %}
 {% block title %}Login{% endblock %}
 
@@ -26,6 +27,7 @@
                     {% comment %} O botão de submit foi trocado por um <button> para facilitar a estilização, mas ainda funciona da mesma forma. {% endcomment %}
                     <button type="submit" class="btn btn-lg btn-warning w-100 fw-bold text-dark" style="font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px;">ENTRAR!</button>
                 </div>
+                <a href="{% provider_login_url 'google' %}">Login com Google</a>
             </div>
         </form>
     </main>
