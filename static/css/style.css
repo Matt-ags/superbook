@@ -23,3 +23,29 @@ p, h5, form{
 #username{
   color: blanchedalmond;
 }
+
+/* Navbar SuperBook */
+.sb-navbar{
+  --sb-bg-start: #1f2a44;
+  --sb-bg-end: #0f172a;
+  background: linear-gradient(90deg, var(--sb-bg-start), var(--sb-bg-end));
+  box-shadow: 0 6px 24px rgba(0,0,0,.25);
+}
+
+.sb-navbar-heroi{
+  --sb-bg-start: #1f2a44; /* azul escuro */
+  --sb-bg-end: #0f172a;   /* quase preto azulado */
+}
+
+.sb-navbar-vilao{
+  --sb-bg-start: #3a0b1b; /* vinho escuro */
+  --sb-bg-end: #0f0b10;   /* roxo/preto */
+}
+
+.sb-navbar .navbar-brand span{ color: #fff; letter-spacing: .3px; }
+.sb-navbar .nav-link{ color: rgba(255,255,255,.85); }
+.sb-navbar .nav-link:hover{ color: #fff; }
+.sb-navbar .btn-warning{ color: #000; font-weight: 600; }
+
+/* Ajustes gerais */
+.wrapper main.container{ backdrop-filter: saturate(120%); }

@@ -177,5 +177,5 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 # settings.py
-LOGIN_REDIRECT_URL = '/'  # Vai para a página inicial
-LOGOUT_REDIRECT_URL = '/' # Vai para a página inicial
+LOGIN_REDIRECT_URL = '/plataforma'  # Vai para a página inicial
+LOGOUT_REDIRECT_URL = '/auth/login/' # Vai para a página inicial
