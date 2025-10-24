@@ -20,6 +20,13 @@ import os
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+from dotenv import load_dotenv  # Importa
+
+# Carrega as variáveis do .env para o ambiente
+load_dotenv()
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -59,6 +66,21 @@ INSTALLED_APPS = [
     # Provider específico (Google)
     'allauth.socialaccount.providers.google',
 ]
+
+# settings.py
+
+try:
+    GOOGLE_CLIENT_ID = os.environ['GOOGLE_CLIENT_ID']
+    GOOGLE_CLIENT_SECRET = os.environ['GOOGLE_CLIENT_SECRET']
+    print("--- TESTE DE DEBUG DO .ENV ---")
+    print(f"CLIENT ID LIDO: {GOOGLE_CLIENT_ID}")
+    print(f"CLIENT SECRET LIDO: {GOOGLE_CLIENT_SECRET}")
+    print("------------------------------")
+except KeyError:
+    raise Exception(
+        "Erro: GOOGLE_CLIENT_ID ou GOOGLE_CLIENT_SECRET não foram encontrados no .env! "
+        "Verifique se o .env existe e reinicie o servidor."
+    )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -103,7 +125,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -172,6 +193,12 @@ SOCIALACCOUNT_PROVIDERS = {
         # Como vamos pedir (login padrão)
         'AUTH_PARAMS': {
             'access_type': 'online',
+        },
+
+        'APP': {
+            'client_id': GOOGLE_CLIENT_ID,
+            'secret': GOOGLE_CLIENT_SECRET,
+            'key': ''  # Deixe vazio
         }
     }
 }
