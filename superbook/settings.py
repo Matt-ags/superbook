@@ -21,6 +21,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 from dotenv import load_dotenv  # Importa
+import dj_database_url
 
 # Carrega as variáveis do .env para o ambiente
 load_dotenv()
@@ -33,15 +34,21 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-r0br$iv&n$_-6+a*h+_hl858vp_)!_cerc!0g7!d#67oif2*jw'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Mude DEBUG para ler do .env. Em produção, será 'False'
+# O 'False' como string é importante para o os.environ.get
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '.onrender.com',
+    '127.0.0.1',
+    'localhost',
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -84,6 +91,7 @@ except KeyError:
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -120,10 +128,10 @@ WSGI_APPLICATION = 'superbook.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600
+    )
 }
 
 # Password validation
@@ -166,7 +174,15 @@ STATICFILES_DIRS = [
     ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+# Para onde o 'collectstatic' vai copiar os arquivos
+STATIC_ROOT = BASE_DIR / 'staticfiles' 
 
+# Configuração do WhiteNoise
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# ARQUIVOS DE MÍDIA (Uploads de Foto)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
