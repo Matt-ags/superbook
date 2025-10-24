@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'feed',
     'perfil',
     'posts',
-    'usuarios',
+    'usuarios.apps.UsuariosConfig'
     'comentarios',
     'viloes',
 
