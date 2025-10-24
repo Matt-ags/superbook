@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load tz %}
+
+{% block title %}Novo Post{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <!-- Card de criação de post -->
+  <div class="card border-0 shadow-sm" style="background-color:#0f1a2b; color: antiquewhite;">
+    <div class="card-body">
+
+      <h3 class="mb-3 text-warning">✍️ Criar Novo Post</h3>
+
+      <form action="{% url 'criar_post' %}" method="post" class="d-flex flex-column gap-3">
+        {% csrf_token %}
+
+        <!-- Campo de texto -->
+        <textarea name="mensagem" rows="4" placeholder="Escreva algo incrível..."
+                  class="form-control rounded-3 border-0 shadow-sm"
+                  style="background-color:#122037; color: antiquewhite;"></textarea>
+
+        <!-- Botão -->
+        <div class="text-end">
+          <button type="submit" class="btn btn-warning fw-bold shadow-sm">
+            🚀 Postar
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

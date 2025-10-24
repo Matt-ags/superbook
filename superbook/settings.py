@@ -15,6 +15,17 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+import os
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+from dotenv import load_dotenv  # Importa
+
+# Carrega as variáveis do .env para o ambiente
+load_dotenv()
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -41,7 +52,35 @@ INSTALLED_APPS = [
     'perfil',
     'posts',
     'usuarios',
+    'comentarios',
+    'viloes',
+
+    # ... apps do django
+    'django.contrib.sites',  # <-- Necessário para o allauth
+
+    # Apps do Allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # Provider específico (Google)
+    'allauth.socialaccount.providers.google',
 ]
+
+# settings.py
+
+try:
+    GOOGLE_CLIENT_ID = os.environ['GOOGLE_CLIENT_ID']
+    GOOGLE_CLIENT_SECRET = os.environ['GOOGLE_CLIENT_SECRET']
+    print("--- TESTE DE DEBUG DO .ENV ---")
+    print(f"CLIENT ID LIDO: {GOOGLE_CLIENT_ID}")
+    print(f"CLIENT SECRET LIDO: {GOOGLE_CLIENT_SECRET}")
+    print("------------------------------")
+except KeyError:
+    raise Exception(
+        "Erro: GOOGLE_CLIENT_ID ou GOOGLE_CLIENT_SECRET não foram encontrados no .env! "
+        "Verifique se o .env existe e reinicie o servidor."
+    )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +90,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Adicione esta linha:
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'superbook.urls'
@@ -58,10 +100,11 @@ ROOT_URLCONF = 'superbook.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -82,7 +125,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -108,7 +150,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -119,8 +161,48 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# settings.py
+SITE_ID = 1
+
+# settings.py
+AUTHENTICATION_BACKENDS = [
+    # Necessário para logar no admin com usuário e senha
+    'django.contrib.auth.backends.ModelBackend',
+
+    # Backend de autenticação específico do allauth
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# settings.py
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # O que vamos pedir ao Google
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        # Como vamos pedir (login padrão)
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+
+        'APP': {
+            'client_id': GOOGLE_CLIENT_ID,
+            'secret': GOOGLE_CLIENT_SECRET,
+            'key': ''  # Deixe vazio
+        }
+    }
+}
+
+# settings.py
+LOGIN_REDIRECT_URL = '/plataforma'  # Vai para a página inicial
+LOGOUT_REDIRECT_URL = '/auth/login/' # Vai para a página inicial

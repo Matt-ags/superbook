@@ -5,9 +5,9 @@ from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
 from .models import *
 # Create your views here.
-def cadastro(request):
+def cadastro_v(request):
     if request.method == "GET":
-        return render(request, 'cadastro.html')
+        return render(request, 'cadastro_viloes.html')
     else:
         codinome = request.POST.get('codinome')
         email = request.POST.get('email')
@@ -26,14 +26,14 @@ def cadastro(request):
         
         user = User.objects.create_user(username=codinome, email=email, password=senha)
         user.save()
-        perfil = Perfil(user = user, descricao = descricao, poderes = poderes, foto = foto)
+        perfil = Perfil_viloes(user = user, descricao = descricao, poderes = poderes, foto = foto)
         perfil.save()
 
         login_django(request, user)
 
         return redirect('plataforma')
 
-def login(request):
+def login_v(request):
     if request.method == "GET":
         return render(request, 'login.html')
     else:

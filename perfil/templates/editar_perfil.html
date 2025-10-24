@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if profile_exists %}Editar Perfil{% else %}Completar Perfil{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card border-warning shadow-sm mx-auto" style="max-width: 600px; background-color:#0f1a2b; color: antiquewhite;">
+    <div class="card-body">
+      
+      {% if profile_exists %}
+        
+        <h3 class="text-warning mb-4">✍️ Editar Perfil</h3>
+
+        <form method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3">
+          {% csrf_token %}
+
+          <div>
+            <label for="foto" class="form-label fw-bold text-light">Foto de Perfil</label>
+            {% if perfil.foto %}
+              <div class="mb-2">
+                <img src="{{ perfil.foto.url }}" alt="Foto de Perfil" class="img-thumbnail" style="max-width: 150px; border-radius: 0.5rem;">
+              </div>
+              <p class="form-text text-light">Carregue uma nova imagem para substituir a atual.</p>
+            {% endif %}
+            <input class="form-control" type="file" id="foto" name="foto" accept="image/*" style="background-color:#122037; color: antiquewhite;">
+          </div>
+          <div>
+            <label for="descricao" class="form-label fw-bold text-light">Descrição</label>
+            <textarea class="form-control rounded-3 border-0 shadow-sm"
+                      id="descricao" name="descricao" rows="4" required
+                      style="background-color:#122037; color: antiquewhite;">{{ perfil.descricao }}</textarea>
+          </div>
+          
+          <div>
+            <label for="poderes" class="form-label fw-bold text-light">Poderes</label>
+            <textarea class="form-control rounded-3 border-0 shadow-sm"
+                      id="poderes" name="poderes" rows="3"
+                      style="background-color:#122037; color: antiquewhite;">{{ perfil.poderes }}</textarea>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <a href="{% url 'perfil' %}" class="btn btn-outline-light shadow-sm">❌ Cancelar</a>
+            <button type="submit" class="btn btn-warning fw-bold shadow-sm">💾 Salvar Alterações</button>
+          </div>
+        </form>
+
+      {% else %}
+
+        <h3 class="text-warning mb-4">👋 Bem-vindo(a)!</h3>
+        <p class="text-light">Opa! Parece que você não concluiu seu cadastro ainda!</p>
+
+        <form method="POST" enctype="multipart/form-data" class="d-flex flex-column gap-3">
+          {% csrf_token %}
+
+          <div>
+            <label for="tipo_perfil" class="form-label fw-bold text-light">Eu sou um:</label>
+            <select class="form-select" id="tipo_perfil" name="tipo_perfil" required style="background-color:#122037; color: antiquewhite;">
+              <option value="heroi">🦸 Herói</option>
+              <option value="vilao">🦹 Vilão</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="foto" class="form-label fw-bold text-light">Foto (Opcional)</label>
+            <input class="form-control" type="file" id="foto" name="foto" accept="image/*" style="background-color:#122037; color: antiquewhite;">
+          </div>
+          <div>
+            <label for="descricao" class="form-label fw-bold text-light">Descrição</label>
+            <textarea class="form-control rounded-3 border-0 shadow-sm"
+                      id="descricao" name="descricao" rows="4" required
+                      placeholder="Quem é você?"
+                      style="background-color:#122037; color: antiquewhite;"></textarea>
+          </div>
+          
+          <div>
+            <label for="poderes" class="form-label fw-bold text-light">Poderes (Opcional)</label>
+            <textarea class="form-control rounded-3 border-0 shadow-sm"
+                      id="poderes" name="poderes" rows="3"
+                      placeholder="Quais seus poderes? (Ex: Voo, Super-força...)"
+                      style="background-color:#122037; color: antiquewhite;"></textarea>
+          </div>
+
+          <div class="text-end">
+            <button type="submit" class="btn btn-warning fw-bold shadow-sm">✅ Salvar Perfil</button>
+          </div>
+        </form>
+
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

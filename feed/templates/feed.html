@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load tz %}
+
+{% block title %}Feed{% endblock %}
+
+{% block content %}
+<h1>Bem-vindo, {{ user.username }}!</h1>
+<hr>
+
+    <h2>Feed de Posts</h2>
+    <br>
+
+        {% for post in posts %}
+            <div class="card mb-4 border-warning shadow-sm" style="background-color:#122037; color: antiquewhite;">
+                <div class="card-body">
+                    <!-- Título e Autor -->
+                    <h5 class="card-title mb-1">@{{ post.autor.username }}</h5>
+
+                    <!-- Mensagem -->
+                    <p class="card-text mt-3">{{ post.mensagem }}</p>
+                    <small class="text-light">Postado em {{ post.criado_em|localtime|date:"d/m/Y H:i" }}</small>
+
+                    <hr class="border-light">
+
+                    <!-- Ações -->
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                    
+                    <!-- Comentários -->
+                    <a href="{% url 'comentarios:detalhes_post' post.id %}" 
+                        class="btn btn-sm btn-outline-light">
+                        💬 {{ post.comentarios.count }} Comentário(s)
+                    </a>
+
+                    <!-- Likes -->
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="fw-bold">💥 {{ post.likes.count }}</span>
+                        <a href="{% url 'like' post.id %}" 
+                        class="btn btn-sm btn-warning fw-bold shadow-sm">
+                        Pow!
+                        </a>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        {% empty %}
+            <p>Nenhum post ainda...</p>
+        {% endfor %}
+{% endblock %}
