@@ -32,7 +32,8 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r0br$iv&n$_-6+a*h+_hl858vp_)!_cerc!0g7!d#67oif2*jw'
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Mude DEBUG para ler do .env. Em produção, será 'False'
 # O 'False' como string é importante para o os.environ.get

@@ -4,6 +4,9 @@ from usuarios import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.views.static import serve
+from django.urls import re_path
+
 urlpatterns = [
     path('', views.listar, name='listar'),
     path('admin/', admin.site.urls),
@@ -21,3 +24,12 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    # --- HACK PARA SERVIR MÍDIA TEMPORÁRIA NO RENDER ---
+    # Isso é inseguro e ineficiente para produção real,
+    # mas funciona para "ver a lógica".
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+    ]
