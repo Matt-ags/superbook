@@ -17,8 +17,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 import os
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media' # A pasta onde as fotos serão salvas temporariamente
 
 from dotenv import load_dotenv  # Importa
 import dj_database_url
@@ -178,7 +178,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR / 'staticfiles' 
 
 # Configuração do WhiteNoise
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # ARQUIVOS DE MÍDIA (Uploads de Foto)
 MEDIA_URL = '/media/'
