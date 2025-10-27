@@ -8,12 +8,12 @@ from django.views.static import serve
 from django.urls import re_path
 
 urlpatterns = [
-    path('', views.listar, name='listar'),
+    path('', include('usuarios.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')), # <-- Adicione esta linha
 
     # apps
-    path('auth/', include('usuarios.urls')),
+    # path('auth/', include('usuarios.urls')),
     path('plataforma/', include('feed.urls')),
     path('plataforma/perfil/', include('perfil.urls')),
     path('plataforma/posts/', include('comentarios.urls')),
