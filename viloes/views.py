@@ -29,9 +29,16 @@ def cadastro_v(request):
         perfil = Perfil_viloes(user = user, descricao = descricao, poderes = poderes, foto = foto)
         perfil.save()
 
-        login_django(request, user)
+        # Precisamos autenticar o usuário que acabamos de criar
+        user_autenticado = authenticate(username=codinome, password=senha)
 
-        return redirect('plataforma')
+        if user_autenticado is not None:
+            login_django(request, user_autenticado)
+        else:
+            # Isso não deve acontecer, mas é bom ter
+            return HttpResponse("Erro crítico ao tentar logar após o cadastro.")
+
+        return redirect('plataforma') # Este redirect será corrigido no próximo passo
 
 def login_v(request):
     if request.method == "GET":
@@ -57,6 +64,3 @@ def listar(request):
     usuarios = User.objects.all()
     return HttpResponse(usuarios)
 
-@login_required(login_url='/auth/login/')
-def plataforma(request):
-    return redirect('plataforma')
