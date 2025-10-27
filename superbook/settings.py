@@ -80,10 +80,6 @@ INSTALLED_APPS = [
 try:
     GOOGLE_CLIENT_ID = os.environ['GOOGLE_CLIENT_ID']
     GOOGLE_CLIENT_SECRET = os.environ['GOOGLE_CLIENT_SECRET']
-    print("--- TESTE DE DEBUG DO .ENV ---")
-    print(f"CLIENT ID LIDO: {GOOGLE_CLIENT_ID}")
-    print(f"CLIENT SECRET LIDO: {GOOGLE_CLIENT_SECRET}")
-    print("------------------------------")
 except KeyError:
     raise Exception(
         "Erro: GOOGLE_CLIENT_ID ou GOOGLE_CLIENT_SECRET não foram encontrados no .env! "
