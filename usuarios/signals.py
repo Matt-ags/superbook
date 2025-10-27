@@ -23,16 +23,16 @@ def create_profile_on_social_signup(request, user, **kwargs):
             descricao="Novo aventureiro pronto para a jornada!"
         )
 
-@receiver(post_save, sender=User)
-def create_profile_on_local_signup(sender, instance, created, **kwargs):
-    """
-    Cria um perfil padrão quando um usuário se cadastra 
-    localmente (com usuário e senha).
-    """
-    if created: # 'created' é True apenas na primeira vez que o User é salvo
-        # Verifica se um perfil social já não foi criado (evita duplicar)
-        if not Perfil.objects.filter(user=instance).exists():
-            Perfil.objects.create(
-                user=instance, 
-                descricao="Novo aventureiro pronto para a jornada!"
-            )
+# @receiver(post_save, sender=User)
+# def create_profile_on_local_signup(sender, instance, created, **kwargs):
+#     """
+#     Cria um perfil padrão quando um usuário se cadastra 
+#     localmente (com usuário e senha).
+#     """
+#     if created: # 'created' é True apenas na primeira vez que o User é salvo
+#         # Verifica se um perfil social já não foi criado (evita duplicar)
+#         if not Perfil.objects.filter(user=instance).exists():
+#             Perfil.objects.create(
+#                 user=instance, 
+#                 descricao="Novo aventureiro pronto para a jornada!"
+#             )
